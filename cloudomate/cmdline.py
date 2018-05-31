@@ -272,11 +272,11 @@ def purchase(args):
         _merge_random_user_data(user_settings)
 
         if args.testnet:
-            user_settings.put('user', 'testnet', 'on')
+            user_settings.put('user', 'testnet', '1')
             globals.global_testnet = True
             print('testnet on')
         else:
-            user_settings.put('user', 'testnet', 'off')
+            user_settings.put('user', 'testnet', '0')
             globals.global_testnet = False
             print('testnet off')
         user_settings.save_settings()
@@ -313,7 +313,7 @@ def _get_user_settings(args, provider=None):
     _merge_arguments(user_settings, provider, vars(args))
 
     # Set global testnet variable according to configuration
-    if user_settings.has_key('user', 'testnet') and user_settings.get('user', 'testnet') == 'on':
+    if user_settings.has_key('user', 'testnet') and user_settings.get('user', 'testnet') == '1':
         globals.global_testnet = True
     else:
         globals.global_testnet = False
