@@ -111,7 +111,7 @@ class ProxHost(SolusvmHoster):
                 bandwidth='unmetered',
                 connection=joption['connection'],
                 price=joption['price'],
-                purchase_url=joption['vmid']
+                purchase_url=str(joption['vmid'])
             ))
 
         return list(options)
