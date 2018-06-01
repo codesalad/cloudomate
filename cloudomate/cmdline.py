@@ -271,13 +271,13 @@ def purchase(args):
     if args.randomuser:
         _merge_random_user_data(user_settings)
 
-        if args.testnet:
+        if args.testnet or os.getenv('TESTNET', '0') == '1':
             user_settings.put('user', 'testnet', '1')
-            globals.global_testnet = True
+            os.environ['TESTNET'] = '1'
             print('testnet on')
         else:
             user_settings.put('user', 'testnet', '0')
-            globals.global_testnet = False
+            os.environ['TESTNET'] = '0'
             print('testnet off')
         user_settings.save_settings()
         print('Random user settings used: ' + user_settings.get_default_config_location())
@@ -314,9 +314,9 @@ def _get_user_settings(args, provider=None):
 
     # Set global testnet variable according to configuration
     if user_settings.has_key('user', 'testnet') and user_settings.get('user', 'testnet') == '1':
-        globals.global_testnet = True
+        os.environ['TESTNET'] = '1'
     else:
-        globals.global_testnet = False
+        os.environ['TESTNET'] = '0'
     return user_settings
 
 
@@ -481,7 +481,7 @@ def _options_vpn(provider):
 def _register(provider, vps_option, settings):
     # For now use standard wallet implementation through Electrum
     # If wallet path is defined in config, use that.
-    testnet = globals.global_testnet
+    testnet = os.getenv('TESTNET', '0') == '1'
 
     if settings.has_key('client', 'walletpath'):
         wallet = Wallet(wallet_path=settings.get('client', 'walletpath'), testnet=testnet)
