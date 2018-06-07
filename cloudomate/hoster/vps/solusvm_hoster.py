@@ -90,7 +90,7 @@ class SolusvmHoster(VpsHoster):
         try:
             form['hostname'] = self._settings.get('server', 'hostname')
         except LinkNotFoundError:
-            pass
+            print('Couldn\'t set hostname')
 
         try:
             form['rootpw'] = self._settings.get('server', 'root_password')
@@ -102,7 +102,8 @@ class SolusvmHoster(VpsHoster):
             form['ns1prefix'] = self._settings.get('server', 'ns1')
             form['ns2prefix'] = self._settings.get('server', 'ns2')
         except LinkNotFoundError:
-            pass
+            print('Couldn\'t set ns1, ns2')
+
 
         # As an alternative to the default Ajax request
         form.new_control('hidden', 'a', 'confproduct')

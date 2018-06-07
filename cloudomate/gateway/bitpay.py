@@ -51,8 +51,6 @@ class BitPay(Gateway):
         # Check for testnet mode
         if globals.global_testnet and uspl.netloc == 'test.bitpay.com':
             bitcoin.set_testnet()
-        else:
-            raise Exception('Should --testnet be on?')
 
         # get payment request using Electrum's lib
         pq = parse_qs(urlsplit(payment_url).query)

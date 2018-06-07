@@ -75,15 +75,9 @@ class UndergroundPrivate(SolusvmHoster):
         self._submit_user_form()
 
         # Retrieve the payment URL from an iFrame
-        soup = self._browser.get_current_page()
-        action = soup.find('form')['action']
-        invoices = soup.find('form')
-        invoice = str(invoices).split('><')[1]
-        invoice_id = str(invoice).split('"')[5]
-
-        # TODO: Find out how to combine the link and the invoice Id
-        action = action + '?invoice=' + invoice_id
-        self.pay(wallet, self.get_gateway(), action)
+        self._browser.select_form('form')
+        page = self._browser.submit_selected().url
+        self.pay(wallet, self.get_gateway(), page)
 
     '''
     Hoster-specific methods that are needed to perform the actions
@@ -112,7 +106,7 @@ class UndergroundPrivate(SolusvmHoster):
         connection = details[6].text
         connection = int(connection[0])
 
-        purchase_url = details[-1].p.span.a['href']
+        purchase_url = details[13].p.span.a['href']
 
         return vps_hoster.VpsOption(name, cores, memory, storage, sys.maxsize, connection, price, purchase_url)
 
