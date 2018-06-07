@@ -4,6 +4,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import json
+import os
 from math import pow
 
 from future import standard_library
@@ -49,7 +50,7 @@ class BitPay(Gateway):
         print(payment_url)
 
         # Check for testnet mode
-        if globals.global_testnet and uspl.netloc == 'test.bitpay.com':
+        if os.getenv('TESTNET', '0') == '1' and uspl.netloc == 'test.bitpay.com':
             bitcoin.set_testnet()
         else:
             raise Exception('Should --testnet be on?')
