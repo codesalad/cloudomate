@@ -18,6 +18,7 @@ from cloudomate.hoster.vps.crowncloud import CrownCloud
 from cloudomate.hoster.vps.linevast import LineVast
 from cloudomate.hoster.vps.pulseservers import Pulseservers
 from cloudomate.hoster.vps.undergroundprivate import UndergroundPrivate
+from cloudomate.hoster.vps.twosync import TwoSync
 from cloudomate.util.fakeuserscraper import UserScraper
 from cloudomate.util.settings import Settings
 
@@ -25,11 +26,12 @@ standard_library.install_aliases()
 
 providers = [
     (LineVast,),
-    (BlueAngelHost,),
-    (CCIHosting,), # TODO CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated.
-    (CrownCloud,),
-    (Pulseservers,),
-    (UndergroundPrivate,),# TODO find a way to combine the url and the invoice to be able to go to the payment page
+    (TwoSync,),
+    #(BlueAngelHost,),
+    #(CCIHosting,), # TODO CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated.
+    #(CrownCloud,),
+    #(Pulseservers,),
+    #(UndergroundPrivate,),# TODO find a way to combine the url and the invoice to be able to go to the payment page
 ]
 
 

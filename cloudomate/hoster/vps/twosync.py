@@ -15,20 +15,23 @@ from future import standard_library
 from mechanicalsoup.utils import LinkNotFoundError
 from decimal import Decimal
 from currency_converter import CurrencyConverter
+from cloudomate.gateway.gateway import Gateway, PaymentInfo
+from cloudomate.gateway.blockchain import Blockchain
+
 import ast
 
-from cloudomate.gateway.bitpay import BitPay
+from cloudomate.gateway.blockchain import Blockchain
 from cloudomate.hoster.vps.solusvm_hoster import SolusvmHoster
 from cloudomate.hoster.vps.vps_hoster import VpsOption
 
 standard_library.install_aliases()
 
 
-class LineVast(SolusvmHoster):
-    CART_URL = 'https://panel.linevast.de/cart.php?a=view'
+class TwoSync(SolusvmHoster):
+    CART_URL = 'https://ua.2sync.org/cart.php?a=view'
 
     def __init__(self, settings):
-        super(LineVast, self).__init__(settings)
+        super(TwoSync, self).__init__(settings)
 
     '''
     Information about the Hoster
@@ -36,17 +39,18 @@ class LineVast(SolusvmHoster):
 
     @staticmethod
     def get_clientarea_url():
-        return 'https://panel.linevast.de/clientarea.php'
+        return 'https://my.2sync.co/clientarea.php'
 
     @staticmethod
     def get_gateway():
-        return BitPay
+        return Blockchain
 
     @staticmethod
     def get_metadata():
-        return 'linevast', 'https://linevast.de/'
+        return 'twosync', 'https://www.2sync.co/vps/ukraine/'
 
     @staticmethod
+    #check if this is correct
     def get_required_settings():
         return {
             'user': ['firstname', 'lastname', 'email', 'phonenumber', 'password'],
@@ -65,7 +69,8 @@ class LineVast(SolusvmHoster):
         :return: possible configurations.
         """
         browser = cls._create_browser()
-        browser.open("https://linevast.de/en/offers/ddos-protected-vps-hosting.html")
+        browser.open("https://www.2sync.co/vps/ukraine/")
+
         options = cls._parse_openvz_hosting(browser.get_current_page())
         lst = list(options)
 
@@ -80,13 +85,24 @@ class LineVast(SolusvmHoster):
         self._browser.follow_link(summary.find('a', class_='btn-checkout'))
 
         form = self._browser.select_form(selector='form#frmCheckout')
-        form['acceptdomainwiderruf1'] = True
-        form['acceptdomainwiderruf2'] = True
         self._fill_user_form(self.get_gateway().get_name())
 
         self._browser.select_form(nr=0)  # Go to payment form
         self._browser.submit_selected()
-        self.pay(wallet, self.get_gateway(), self._browser.get_url())
+
+        self._browser.open('https://ua.2sync.org/cart.php?a=complete')
+        invoice = self._browser.get_current_page().find('a', {'class': 'alert-link'})
+        self._browser.follow_link(invoice)
+
+        url = self._browser.get_url()
+        urlselected = self.extract_info(url)
+
+        self.pay(wallet, self.get_gateway(), urlselected)
+
+        #open invoice page after paying
+        invoice = str(url).split('=')[1]
+        self._browser.open('https://ua.2sync.org//modules/gateways/blockchain.php?invoice=' + invoice)
+        print(self._browser.get_current_page())
 
     '''
     Hoster-specific methods that are needed to perform the actions
@@ -100,77 +116,64 @@ class LineVast(SolusvmHoster):
         form = self._browser.select_form('form#frmConfigureProduct')
         self._fill_server_form()
         try:
-            form['configoption[61]'] = '657'  # Ubuntu 16.04
+            form['configoption[5]'] = '14'  # Ubuntu 16.04
         except LinkNotFoundError:
-            form['configoption[125]'] = '549'  # Ubuntu 16.04
+            print('error')
         self._browser.submit_selected()
 
     @classmethod
     def _parse_openvz_hosting(cls, page):
         urls = cls._get_hrefs()
-        storage = cls._get_storage()
-        names = page.find_all('p', {'class': 'text-center py-3'})
-        prices = page.find_all('div', {'class': 'pricing-1'})
-        info = page.find_all('div', {'class': 'text-muted'})
-        for i in range(0, len(info)):
-            index = 2 * i + 1
-            price = str(prices).split('data-monthly="')[index].split('" data-yearly=')[0]
-            name = str(names[i]).split('data-product="')[1].split('" href')[0]
+        table = page.find_all('td')
 
-            option = cls._parse_linux_option(price, name, info[i], urls[i], storage[i])
+        names = ['2S VSUA01', '2S VSUA02', '2S VSUA03', '2S VSUA04']
+        for i in range(0, len(urls)):
+            option = cls._parse_linux_option(urls[i], table, names[i], i)
             yield option
 
-    @staticmethod
-    def _parse_linux_option(price, name, info, url, storage):
-        elements = str(info).split('<br/>')
-        price = price.replace(',', '.')
-        c = CurrencyConverter()
 
+    @staticmethod
+    def _parse_linux_option(url, table, name, i):
         option = VpsOption(
             name=name,
-            storage=storage,
-            cores=elements[0].split('>')[1].split(' CPU-Cores')[0],
-            memory=elements[2].split('GB Arbeitsspeicher')[0],
+            storage=str(table[3 + (i*8)]).split('g>')[1].split('<')[0],
+            cores=str(table[1 + (i*8)]).split('g>')[1].split('<')[0],
+            memory=str(table[2 + (i*8)]).split('g>')[1].split('GB')[0],
             bandwidth='unmetered',
-            connection=int(elements[3].split('GB')[0]) * 1000,
-            price=round(c.convert(price, 'EUR', 'USD'), 2),
+            connection=int(str(table[5 + (i*8)]).split('g>')[1].split('Gbps')[0]) * 1000,
+            price=str(table[7 + (i*8)]).split('$')[1].split('/mo')[0],
             purchase_url=url,
         )
         return option
 
     @classmethod
+    def extract_info(cls, url):
+        invoice = str(url).split('=')[1]
+        browser = cls._create_browser()
+        browser.open('https://ua.2sync.org//modules/gateways/blockchain.php?invoice=' + invoice)
+        pages = browser.get_current_page().find_all('b')
+        amount = float(str(pages[0]).split('>')[1].split(' BTC')[0])
+        address = str(pages[1]).split('>')[1].split('<')[0]
+        return str(amount) + '&' + address
+
+
+    @classmethod
     def _get_hrefs(cls):
         browser = cls._create_browser()
-        browser.open("https://panel.linevast.de/cart.php")
+        browser.open("https://ua.2sync.org/cart.php")
         page = browser.get_current_page()
         hrefs = page.find_all('a', {'class': 'order-button'})
+        lst = [None] * int(len(hrefs)/2)
 
-        lst = [None] * len(hrefs)
-
-        for x in range(0, len(hrefs)):
+        for x in range(0, len(hrefs), 2):
             urlstring = str(hrefs[x]).split('href="')[1].split('"')[0]
             urlstring = urlstring.replace('/cart.php', '').replace('amp;', '')
             url = browser.get_url()
             url = url.split('?')[0]
             url = url + urlstring
-            lst[x] = url
+            lst[int(x/2)] = url
 
         return lst
-
-    @classmethod
-    def _get_storage(cls):
-        browser = cls._create_browser()
-        browser.open("https://panel.linevast.de/cart.php")
-        page = browser.get_current_page()
-
-        storage = [None] * 4
-
-        for x in range(0, 4):
-            storagetemp = page.find('li', {'id': 'product' + str(x+1) +'-feature3'})
-            storagetemp = str(storagetemp).split('>')[1].split('GB')[0]
-            storage[x] = int(storagetemp)
-
-        return storage
 
     @staticmethod
     def _extract_vi_from_links(links):
