@@ -127,14 +127,14 @@ class LineVast(SolusvmHoster):
         c = CurrencyConverter()
 
         option = VpsOption(
-            name=name,
-            storage=storage,
-            cores=elements[0].split('>')[1].split(' CPU-Cores')[0],
-            memory=elements[2].split('GB Arbeitsspeicher')[0],
-            bandwidth='unmetered',
-            connection=int(elements[3].split('GB')[0]) * 1000,
-            price=round(c.convert(price, 'EUR', 'USD'), 2),
-            purchase_url=url,
+            name=str(name).strip(),
+            storage=str(storage).strip(),
+            cores=str(elements[0].split('>')[1].split(' CPU-Cores')[0]).strip(),
+            memory=str(elements[2].split('GB Arbeitsspeicher')[0]).strip(),
+            bandwidth=str('unmetered').strip(),
+            connection=str(int(elements[3].split('GB')[0]) * 1000).strip(),
+            price=str(round(c.convert(price, 'EUR', 'USD'), 2)).strip(),
+            purchase_url=str(url).strip(),
         )
         return option
 
