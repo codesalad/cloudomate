@@ -39,7 +39,7 @@ class TwoSync(SolusvmHoster):
 
     @staticmethod
     def get_clientarea_url():
-        return 'https://my.2sync.co/clientarea.php'
+        return 'https://ua.2sync.org/clientarea.php'
 
     @staticmethod
     def get_gateway():
@@ -50,7 +50,6 @@ class TwoSync(SolusvmHoster):
         return 'twosync', 'https://www.2sync.co/vps/ukraine/'
 
     @staticmethod
-    #check if this is correct
     def get_required_settings():
         return {
             'user': ['firstname', 'lastname', 'email', 'phonenumber', 'password'],
