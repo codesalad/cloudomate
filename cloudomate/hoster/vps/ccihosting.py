@@ -91,7 +91,7 @@ class CCIHosting(SolusvmHoster):
         self._fill_user_form(self.get_gateway().get_name())
 
         coinbase_url = self._browser.get_current_page().find('form')['action']
-        self.pay(wallet, self.get_gateway(), coinbase_url)
+        return self.pay(wallet, self.get_gateway(), coinbase_url)
 
     '''
     Hoster-specific methods that are needed to perform the actions

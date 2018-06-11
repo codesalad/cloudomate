@@ -83,7 +83,7 @@ class UndergroundPrivate(SolusvmHoster):
 
         # TODO: Find out how to combine the link and the invoice Id
         action = action + '?invoice=' + invoice_id
-        self.pay(wallet, self.get_gateway(), action)
+        return self.pay(wallet, self.get_gateway(), action)
 
     '''
     Hoster-specific methods that are needed to perform the actions

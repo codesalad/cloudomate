@@ -141,7 +141,7 @@ class ProxHost(SolusvmHoster):
         print(res)
         pay_url = res.content.decode('utf8')
         print(pay_url)
-        self.pay(wallet, self.get_gateway(), pay_url)
+        return self.pay(wallet, self.get_gateway(), pay_url)
 
     @staticmethod
     def _check_login(text):
