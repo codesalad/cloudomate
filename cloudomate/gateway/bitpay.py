@@ -53,7 +53,6 @@ class BitPay(Gateway):
         if os.getenv('TESTNET', '0') == '1' and uspl.netloc == 'test.bitpay.com':
             bitcoin.set_testnet()
 
-
         # get payment request using Electrum's lib
         pq = parse_qs(urlsplit(payment_url).query)
         out = {k: v[0] for k, v in pq.items()}
