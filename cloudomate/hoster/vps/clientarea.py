@@ -66,8 +66,8 @@ class ClientArea(object):
         price_string = columns[1].text
         dot_index = price_string.index('.')
         price = float(price_string[1:dot_index + 3])
-        if 'EUR' in price_string:
-            price = round(CurrencyRates().convert("EUR", "USD", price), 2)
+        # if 'EUR' in price_string:
+        #     price = round(CurrencyRates().convert("EUR", "USD", price), 2)
 
         next_due = columns[2].span.text
         next_due = datetime.datetime.strptime(next_due, '%Y-%m-%d')
