@@ -19,6 +19,9 @@ class Pulseservers(SolusvmHoster):
     CART_URL = 'https://www.pulseservers.com/billing/cart.php?a=confdomains'
     OPTIONS_URL = 'https://pulseservers.com/vps-linux.html'
 
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = False
+
     '''
     Information about the Hoster
     '''

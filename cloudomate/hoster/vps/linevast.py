@@ -31,6 +31,10 @@ standard_library.install_aliases()
 
 class LineVast(SolusvmHoster):
     CART_URL = 'https://panel.linevast.de/cart.php?a=view'
+
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = True
+
     _settings = None
     _controlpanel = None
 

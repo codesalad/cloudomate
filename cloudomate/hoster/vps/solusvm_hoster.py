@@ -24,6 +24,9 @@ standard_library.install_aliases()
 class SolusvmHoster(VpsHoster):
     _clientarea = None
 
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = False
+
     """
     SolusvmHoster is the common superclass of all VPS hosters that make use of the Solusvm management package.
     This makes it possible to fill in the registration form in a similar manner for all Solusvm subclasses.

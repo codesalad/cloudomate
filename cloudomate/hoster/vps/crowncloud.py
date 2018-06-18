@@ -19,6 +19,9 @@ class CrownCloud(SolusvmHoster):
     CART_URL = 'https://crowncloud.net/clients/cart.php?a=view'
     OPTIONS_URL = 'http://crowncloud.net/openvz.php'
 
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = False
+
     '''
     Information about the Hoster
     '''
