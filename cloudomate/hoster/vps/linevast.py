@@ -14,7 +14,6 @@ from forex_python.converter import CurrencyRates
 from future import standard_library
 from mechanicalsoup.utils import LinkNotFoundError
 from decimal import Decimal
-from currency_converter import CurrencyConverter
 import ast
 
 from cloudomate.gateway.bitpay import BitPay
@@ -115,7 +114,7 @@ class LineVast(SolusvmHoster):
 
         self._browser.select_form(nr=0)  # Go to payment form
         self._browser.submit_selected()
-        self.pay(wallet, self.get_gateway(), self._browser.get_url())
+        return self.pay(wallet, self.get_gateway(), self._browser.get_url())
 
     '''
     Hoster-specific methods that are needed to perform the actions
@@ -157,12 +156,12 @@ class LineVast(SolusvmHoster):
 
         option = VpsOption(
             name=str(name).strip(),
-            storage=str(storage).strip(),
-            cores=str(elements[0].split('>')[1].split(' CPU-Cores')[0]).strip(),
-            memory=str(elements[2].split('GB Arbeitsspeicher')[0]).strip(),
-            bandwidth=str('unmetered').strip(),
-            connection=str(int(elements[3].split('GB')[0]) * 1000).strip(),
-            price=str(round(c.convert(price, 'EUR', 'USD'), 2)).strip(),
+            storage=storage,
+            cores=float((elements[0].split('>')[1].split(' CPU-Cores')[0]).strip()),
+            memory=float((elements[2].split('GB Arbeitsspeicher')[0]).strip()),
+            bandwidth='unmetered',
+            connection=(int(elements[3].split('GB')[0]) * 1000),
+            price=round(c.convert(price, 'EUR', 'USD'), 2),
             purchase_url=str(url).strip(),
         )
         return option

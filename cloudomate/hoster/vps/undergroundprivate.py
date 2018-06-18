@@ -79,7 +79,7 @@ class UndergroundPrivate(SolusvmHoster):
         # Retrieve the payment URL from an iFrame
         self._browser.select_form('form')
         page = self._browser.submit_selected().url
-        self.pay(wallet, self.get_gateway(), page)
+        return self.pay(wallet, self.get_gateway(), page)
 
     '''
     Hoster-specific methods that are needed to perform the actions
