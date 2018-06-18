@@ -86,7 +86,7 @@ class LineVast(SolusvmHoster):
 
         self._browser.select_form(nr=0)  # Go to payment form
         self._browser.submit_selected()
-        self.pay(wallet, self.get_gateway(), self._browser.get_url())
+        return self.pay(wallet, self.get_gateway(), self._browser.get_url())
 
     '''
     Hoster-specific methods that are needed to perform the actions

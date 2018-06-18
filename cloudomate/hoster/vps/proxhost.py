@@ -5,25 +5,22 @@ from __future__ import unicode_literals
 
 import itertools
 import json
-from builtins import int
-from builtins import round
 from builtins import super
 
 import ssl
 import requests
 import dateutil.parser
+from mechanicalsoup import StatefulBrowser
+from fake_useragent import UserAgent
 
-from forex_python.converter import CurrencyRates
 from future import standard_library
 from future.moves.urllib import request
-from mechanicalsoup.utils import LinkNotFoundError
 
 from cloudomate.gateway.bitpay import BitPay
 from cloudomate.hoster.vps.solusvm_hoster import SolusvmHoster
 from cloudomate.hoster.vps.vps_hoster import VpsOption
 
 standard_library.install_aliases()
-from abc import abstractmethod
 from collections import namedtuple
 
 VpsConfiguration = namedtuple('VpsConfiguration', ['ip', 'root_password'])
@@ -141,7 +138,15 @@ class ProxHost(SolusvmHoster):
         print(res)
         pay_url = res.content.decode('utf8')
         print(pay_url)
-        self.pay(wallet, self.get_gateway(), pay_url)
+        return self.pay(wallet, self.get_gateway(), pay_url)
+
+
+    @staticmethod
+    def get_ip(user_settings):
+        res = requests.post(ProxHost.BASE_URL + '/getconfiguration', json=ProxHost(user_settings).json_user_config(), verify=False)
+        print(res.content)
+        config = json.loads(res.content)
+        return config['ip']
 
     @staticmethod
     def _check_login(text):
