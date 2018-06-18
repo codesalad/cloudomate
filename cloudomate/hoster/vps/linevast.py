@@ -128,12 +128,12 @@ class LineVast(SolusvmHoster):
 
         option = VpsOption(
             name=str(name).strip(),
-            storage=str(storage).strip(),
-            cores=str(elements[0].split('>')[1].split(' CPU-Cores')[0]).strip(),
-            memory=str(elements[2].split('GB Arbeitsspeicher')[0]).strip(),
-            bandwidth=str('unmetered').strip(),
-            connection=str(int(elements[3].split('GB')[0]) * 1000).strip(),
-            price=str(round(c.convert(price, 'EUR', 'USD'), 2)).strip(),
+            storage=storage,
+            cores=float((elements[0].split('>')[1].split(' CPU-Cores')[0]).strip()),
+            memory=float((elements[2].split('GB Arbeitsspeicher')[0]).strip()),
+            bandwidth='unmetered',
+            connection=(int(elements[3].split('GB')[0]) * 1000),
+            price=round(c.convert(price, 'EUR', 'USD'), 2),
             purchase_url=str(url).strip(),
         )
         return option
