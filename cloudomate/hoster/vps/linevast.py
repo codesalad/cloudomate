@@ -14,7 +14,6 @@ from forex_python.converter import CurrencyRates
 from future import standard_library
 from mechanicalsoup.utils import LinkNotFoundError
 from decimal import Decimal
-from currency_converter import CurrencyConverter
 import ast
 
 from cloudomate.gateway.bitpay import BitPay
