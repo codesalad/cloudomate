@@ -3,22 +3,13 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import itertools
 import json
 
 from builtins import int
-from builtins import round
 from builtins import super
 
-from forex_python.converter import CurrencyRates
 from future import standard_library
 from mechanicalsoup.utils import LinkNotFoundError
-from decimal import Decimal
-from currency_converter import CurrencyConverter
-from cloudomate.gateway.gateway import Gateway, PaymentInfo
-from cloudomate.gateway.blockchain import Blockchain
-
-import ast
 
 from cloudomate.gateway.blockchain import Blockchain
 from cloudomate.hoster.vps.solusvm_hoster import SolusvmHoster
