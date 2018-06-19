@@ -10,7 +10,6 @@ from builtins import int
 from builtins import round
 from builtins import super
 
-from forex_python.converter import CurrencyRates
 from future import standard_library
 from mechanicalsoup.utils import LinkNotFoundError
 from decimal import Decimal
