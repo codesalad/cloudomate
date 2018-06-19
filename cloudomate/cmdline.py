@@ -44,13 +44,13 @@ types = ["vps", "vpn"]
 
 providers = CaseInsensitiveDict({
     "vps": _map_providers_to_dict([
-        BlueAngelHost,
+        # BlueAngelHost,
         # CCIHosting,
         # CrownCloud,
         LineVast,
         # Pulseservers,
-        UndergroundPrivate,
-        TwoSync,
+        # UndergroundPrivate,
+        # TwoSync,
         ProxHost
     ]),
     "vpn": _map_providers_to_dict([
