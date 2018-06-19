@@ -18,6 +18,8 @@ standard_library.install_aliases()
 class UndergroundPrivate(SolusvmHoster):
     CART_URL = 'https://www.clientlogin.sx/cart.php?a=view'
     OPTIONS_URL = 'https://undergroundprivate.com/russiaoffshorevps.html'
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = False
 
     '''
     Information about the Hoster

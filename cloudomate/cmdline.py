@@ -25,6 +25,7 @@ from cloudomate.hoster.vps.crowncloud import CrownCloud
 from cloudomate.hoster.vps.linevast import LineVast
 from cloudomate.hoster.vps.pulseservers import Pulseservers
 from cloudomate.hoster.vps.undergroundprivate import UndergroundPrivate
+from cloudomate.hoster.vps.twosync import TwoSync
 from cloudomate.hoster.vps.proxhost import ProxHost
 from cloudomate.util.fakeuserscraper import UserScraper
 from cloudomate.util.settings import Settings
@@ -49,6 +50,7 @@ providers = CaseInsensitiveDict({
         LineVast,
         # Pulseservers,
         # UndergroundPrivate,
+        # TwoSync,
         ProxHost
     ]),
     "vpn": _map_providers_to_dict([

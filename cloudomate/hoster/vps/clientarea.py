@@ -94,23 +94,3 @@ class ClientArea(object):
             print("Login failure")
             sys.exit(2)
         self.home_page = page
-
-    #
-    # Legacy methods, currently not used
-    #
-
-    def get_emails(self):
-        page = self._browser.open(self._url + "?action=emails")
-        return self._extract_emails(page.get_data())
-
-    @staticmethod
-    def _extract_emails(data):
-        soup = BeautifulSoup(data, 'lxml')
-        table = soup.find('table', {'id': 'tableEmailsList'}).tbody
-        emails = []
-        for row in table.findAll('tr'):
-            emails.append({
-                'id': row['onclick'].split('\'')[1].split('id=')[1],
-                'title': row.findAll('td')[1].text
-            })
-        return emails

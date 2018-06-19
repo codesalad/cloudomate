@@ -24,6 +24,9 @@ class BlueAngelHost(SolusvmHoster):
     CLIENT_DATA_URL = 'https://www.billing.blueangelhost.com/modules/servers/solusvmpro/get_client_data.php'
     CART_URL = 'https://www.billing.blueangelhost.com/cart.php?a=view'
 
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = False
+
     def __init__(self, settings):
         super(BlueAngelHost, self).__init__(settings)
 

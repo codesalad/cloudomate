@@ -140,7 +140,7 @@ class TwoSync(SolusvmHoster):
             memory=str(table[2 + (i*8)]).split('g>')[1].split('GB')[0],
             bandwidth='unmetered',
             connection=int(str(table[5 + (i*8)]).split('g>')[1].split('Gbps')[0]) * 1000,
-            price=str(table[7 + (i*8)]).split('$')[1].split('/mo')[0],
+            price=float(str(table[7 + (i*8)]).split('$')[1].split('/mo')[0]),
             purchase_url=url,
         )
         return option

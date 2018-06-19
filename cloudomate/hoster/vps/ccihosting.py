@@ -23,6 +23,9 @@ class CCIHosting(SolusvmHoster):
     CART_URL = 'https://www.ccihosting.com/accounts/cart.php?a=confdomains'
     OPTIONS_URL = 'https://www.ccihosting.com/offshore-vps.html'
 
+    # true if you can enable tuntap in the control panel
+    TUN_TAP_SETTINGS = False
+
     '''
     Information about the Hoster
     '''
