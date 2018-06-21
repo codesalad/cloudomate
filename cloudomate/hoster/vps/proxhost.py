@@ -36,7 +36,7 @@ VpsStatus = namedtuple('VpsStatus', ['memory',  # Memory VpsStatusResource in GB
 
 class ProxHost(SolusvmHoster):
     # true if you can enable tuntap in the control panel
-    TUN_TAP_SETTINGS = False
+    TUN_TAP_SETTINGS = True
 
     BASE_URL = 'https://codesalad.nl:5000/cloudomate'
 
