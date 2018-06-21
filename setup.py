@@ -59,6 +59,7 @@ setup(
         'appdirs',
         'lxml',
         'MechanicalSoup',
+        'CurrencyConverter',
         'bs4',
         'forex-python',
         'parameterized',
