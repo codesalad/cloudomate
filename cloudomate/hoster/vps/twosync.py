@@ -4,6 +4,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import json
+import re
+import time
 
 from builtins import int
 from builtins import super
@@ -91,8 +93,25 @@ class TwoSync(SolusvmHoster):
 
         #open invoice page after paying
         invoice = str(url).split('=')[1]
-        self._browser.open('https://ua.2sync.org//modules/gateways/blockchain.php?invoice=' + invoice)
-        print(self._browser.get_current_page())
+        self._browser.open('https://ua.2sync.org/modules/gateways/blockchain.php?invoice=' + invoice)
+
+        msoup = self._browser.get_current_page()
+        mpattern = re.compile(r'secret:\s*\'(.+?)\'')
+        secret = mpattern.search(str(msoup)).group(1)
+
+        okdata = {
+            'invId': invoice,
+            'am': urlselected.split('&')[0],
+            'secret': secret
+        }
+
+        # wait 10s to allow for payment to go through
+        print("Waiting 10s before 'clicking' on OK...")
+        time.sleep(10)
+
+        # this emulates a mouse click on the "OK" button
+        self._browser.session.post(url='https://ua.2sync.org/blockchain_openTicket.php', data=okdata)
+
 
     '''
     Hoster-specific methods that are needed to perform the actions

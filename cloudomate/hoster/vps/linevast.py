@@ -345,7 +345,7 @@ class ControlPanel(object):
             ahref = soup.findAll('a', href=pattern)[0]['href']
             self._browser.open(self._url + '/' + ahref)
             msoup = self._browser.get_current_page()
-            mpattern = re.compile(r'vi:"(.+?)"')
+            mpattern = re.compile(r'vi:\s*"(.+?)"')
             self._vi = mpattern.search(str(msoup)).group(1)
             print(self._vi)
         return self._vi
