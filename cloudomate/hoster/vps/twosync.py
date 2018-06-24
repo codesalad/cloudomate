@@ -16,6 +16,8 @@ from mechanicalsoup.utils import LinkNotFoundError
 from cloudomate.gateway.blockchain import Blockchain
 from cloudomate.hoster.vps.solusvm_hoster import SolusvmHoster
 from cloudomate.hoster.vps.vps_hoster import VpsOption
+from cloudomate.hoster.vps.vps_hoster import VpsConfiguration
+from cloudomate.hoster.vps.clientarea import ClientArea
 
 standard_library.install_aliases()
 
@@ -35,6 +37,10 @@ class TwoSync(SolusvmHoster):
         return 'https://ua.2sync.org/clientarea.php'
 
     @staticmethod
+    def get_email_url():
+        return 'https://ua.2sync.org/viewemail.php'
+
+    @staticmethod
     def get_gateway():
         return Blockchain
 
@@ -48,6 +54,12 @@ class TwoSync(SolusvmHoster):
             'user': ['firstname', 'lastname', 'email', 'phonenumber', 'password'],
             'address': ['address', 'city', 'state', 'zipcode'],
         }
+
+    def _create_clientarea(self):
+        if self._clientarea is None:
+            self._clientarea = TSClientArea(self.get_browser(), self.get_clientarea_url(),
+                                                  self.get_email_url(), self._settings)
+        return self._clientarea
 
     '''
     Action methods of the Hoster that can be called
@@ -67,6 +79,18 @@ class TwoSync(SolusvmHoster):
         lst = list(options)
 
         return lst
+
+    def get_configuration(self):
+        """
+        Overrides the default configuration method as BlueAngelHost doesn't use the server password during
+        registration
+        :return: IP and Password
+        """
+        server_info = self.get_clientarea().get_server_information_from_email()
+        ip = server_info.get('ip_address')
+        password = server_info.get('server_password')
+
+        return VpsConfiguration(ip, password)
 
     def purchase(self, wallet, option):
         self._browser.open(option.purchase_url)
@@ -197,3 +221,75 @@ class TwoSync(SolusvmHoster):
         if data['success'] and data['success'] == '1':
             return True
         return False
+
+
+class TSClientArea(ClientArea):
+    """
+    Modified ClientAria for BlueAngelHost,
+    Extended for looking up server information and control panel credentials
+    """
+    email_url = None
+
+    def __init__(self, browser, clientarea_url, email_url, user_settings):
+        self.email_url = email_url
+        ClientArea.__init__(self, browser, clientarea_url, user_settings)
+
+    def get_emails(self):
+        """
+        Returns a list of dicts containing email metadata: {id, title}
+        This can be used to further select certains emails to parse
+        """
+        self._browser.open(self._url + "?action=emails")
+        soup = self._browser.get_current_page()
+        extracted = self._extract_emails(soup)
+        return extracted
+
+    def get_server_information_from_email(self):
+        """
+        Returns the parsed server information from email
+        """
+        email_id = None
+        for email in self.get_emails():
+            e_id = email['id']
+            title = email['title']
+            if 'ready' in title:
+                email_id = e_id
+                break
+        self._browser.open(self.email_url + '?id=' + email_id)
+        soup = self._browser.get_current_page()
+
+        server_info = {
+            'ip_address': None,
+            'server_user': None,
+            'server_password': None,
+            'vmuser': None,
+            'vmuser_password': None,
+            'control_panel_url': None
+        }
+
+        ps = soup.findAll('p')
+        pattern1 = re.compile(r'(?:<.>)*((?:Username:)|(?:Root Password:)|(?:VPS IP:))\s*((?:\w{1,3}\.*){1,4})(?:<.>)*', re.MULTILINE)
+
+        for p in ps:
+            p = re.sub(r'[^\x00-\x7F]+','',str(p)).decode('utf-8','ignore').strip()
+            for (k, v) in re.findall(pattern1, p):
+                print(k + "....." + v)
+                if 'VPS IP' in k and not server_info['ip_address']:
+                    server_info['ip_address'] = v
+                elif 'Root Password' in k and not server_info['server_password']:
+                    server_info['server_password'] = v
+                elif 'Username' in k and not server_info['server_user']:
+                    server_info['server_user'] = v
+
+        return server_info
+
+    @staticmethod
+    def _extract_emails(soup):
+        table = soup.find('table', {'id': 'tableEmailsList'}).tbody
+        emails = []
+        for row in table.findAll('tr'):
+            emails.append({
+                'id': row['onclick'].split('\'')[1].split('id=')[1],
+                'title': row.findAll('td')[1].text
+            })
+        return emails

@@ -88,9 +88,9 @@ class BlueAngelHost(SolusvmHoster):
         registration
         :return: IP and Password
         """
-        server_info = self._clientarea.get_server_information_from_email()
+        server_info = self.get_clientarea().get_server_information_from_email()
         ip = server_info.get('ip_address')
-        password = server_info('server_password')
+        password = server_info.get('server_password')
 
         return VpsConfiguration(ip, password)
 
