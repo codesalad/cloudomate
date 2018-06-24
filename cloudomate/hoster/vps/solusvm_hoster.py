@@ -95,6 +95,14 @@ class SolusvmHoster(VpsHoster):
             print('Install sshpass to use this command')
             return False
 
+    def enable_tun_tap(self):
+        """
+        For servers that are able to have their TUN/TAP settings enabled
+        This ties along with TUN_TAP_SETTINGS, which must be set to True if provider supports TUN/TAP
+        :return: Defaults to False, unless implemented on the server
+        """
+        return False
+
     '''
     Static methods that must be overwritten by subclasses
     '''

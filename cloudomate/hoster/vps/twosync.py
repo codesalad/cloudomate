@@ -92,6 +92,13 @@ class TwoSync(SolusvmHoster):
 
         return VpsConfiguration(ip, password)
 
+    def enable_tun_tap(self):
+        """
+        TwoSync already has tuntap enabled
+        :return: True
+        """
+        return True
+
     def purchase(self, wallet, option):
         self._browser.open(option.purchase_url)
         self._server_form()
