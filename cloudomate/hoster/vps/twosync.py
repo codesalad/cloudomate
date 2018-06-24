@@ -136,7 +136,6 @@ class TwoSync(SolusvmHoster):
         # this emulates a mouse click on the "OK" button
         self._browser.session.post(url='https://ua.2sync.org/blockchain_openTicket.php', data=okdata)
 
-
     '''
     Hoster-specific methods that are needed to perform the actions
     '''
@@ -225,8 +224,8 @@ class TwoSync(SolusvmHoster):
 
 class TSClientArea(ClientArea):
     """
-    Modified ClientAria for BlueAngelHost,
-    Extended for looking up server information and control panel credentials
+    Modified ClientAria for twosync,
+    Extended for looking up server information such as IP, root password
     """
     email_url = None
 
@@ -271,9 +270,8 @@ class TSClientArea(ClientArea):
         pattern1 = re.compile(r'(?:<.>)*((?:Username:)|(?:Root Password:)|(?:VPS IP:))\s*((?:\w{1,3}\.*){1,4})(?:<.>)*', re.MULTILINE)
 
         for p in ps:
-            p = re.sub(r'[^\x00-\x7F]+','',str(p)).decode('utf-8','ignore').strip()
+            p = re.sub(r'[^\x00-\x7F]+', '', str(p)).decode('utf-8','ignore').strip()
             for (k, v) in re.findall(pattern1, p):
-                print(k + "....." + v)
                 if 'VPS IP' in k and not server_info['ip_address']:
                     server_info['ip_address'] = v
                 elif 'Root Password' in k and not server_info['server_password']:
