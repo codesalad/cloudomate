@@ -61,21 +61,27 @@ This same list can be accessed through the list command: :
 
 ### Compatibility
 
-The stability of cloudomate depends on its ability to read and fill in registration forms on the provider webpages. Not all providers offer the same forms and differ in functionalities (user may not be able to send their chosen root password during registration). The following table depicts the current state of the providers.
+The stability of cloudomate depends on its ability to read and fill in registration forms on the provider webpages. Not all providers offer the same forms and differ in functionalities (user may not be able to send their chosen root password during registration). The following table depicts the current state of the providers that have been implemented in Cloudomate.
 
 | Provider           | Type | Compatible | Control panel | ClientArea | Email parsing | Rootpassword | Settings | Notes                |
 |--------------------|:----:|:----------:|:-------------:|------------|:-------------:|:------------:|----------|----------------------|
 | BlueAngelHost      |  vps |     yes    |       -       | extended   |      yes      |  from email  |          | >12h purchase processing        |
-| CCIHosting         |  vps |      -     |       -       | default    |       -       |       -      |          | Gateway broken       |
-| CrownCloud         |  vps |      -     |       -       | default    |       -       |       -      |          | Manual order reviews |
+| CCIHosting         |  vps |      no     |       -       | default    |       -       |       -      |          | Gateway broken       |
+| CrownCloud         |  vps |      no     |       -       | default    |       -       |       -      |          | Manual order reviews |
 | LineVast           |  vps |     yes    |      yes      | extended   |      yes      | registration | TUN/TAP  | PlebNet compatible   |
-| PulseServers       |  vps |      -     |       -       | default    |       -       |       -      |          | Gateway broken       |
+| PulseServers       |  vps |      no     |       -       | default    |       -       |       -      |          | Gateway broken       |
 | TwoSync            |  vps |     yes    |       -       | extended   |               |  from email  | TUN/TAP  |                      |
 | UndergrowndPrivate |  vps |     yes    |       -       | default    |       -       | registration |          |                      |
 | ProxHost (TBTC)    |  vps |     yes    |       -       | none       |       -       | registration |          | Emulated             |
 | AzireVPN           |  vpn |     yes    |       -       | none       |       -       | registration |          |                      |
+ 
+**Incompatible** providers need to be fixed in order for them to work. The providers were not removed as there is a possibility that they could be fixed later on.
 
+**Control panel** is the added feature for some providers, allowing Cloudomate to change settings such as TUN/TAP for VPN. The control panel could be further implemented to be able to change more settings.
 
+**ClientArea** The client area contains general information such as the VPS' IP address and access to emails.
+
+**Email parsing** With extended ClientAreas, emails can be parsed to gain access to the control panel.
 
 ### Configuration
 
@@ -191,6 +197,18 @@ created and the instance is paid through an Electrum wallet. :
     Name           CPU            RAM            Storage        Bandwidth      Est.Price
     Basis OVZ      1              2              50             unmetered      6.99
     Purchase this option? (y/N)
+
+Additionally, a `randomuser` could be generated for a purchase:
+```
+    $ cloudomate vps purchase linevast 0 --randomuser
+```
+The configuration file is stored in `~/.config/cloudomate.cfg`.
+
+For **ProxHost**, a server could be bought using testnet Bitcoins:
+```
+    $ cloudomate vps purchase proxhost 0 --testnet
+```
+
 
 ### Manage
 
