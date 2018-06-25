@@ -46,6 +46,7 @@ class TestBitPay(TestCase):
     rate = None
 
     @classmethod
+    @skip('The Test url isn\t supported anymore need to find a long term replacement')
     def setUpClass(cls):
         html_file = open(os.path.join(os.path.dirname(__file__), 'resources/bitpay_invoice_data.json'), 'r')
         data = html_file.read().encode('utf-8')
