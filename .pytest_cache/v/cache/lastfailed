@@ -1,6 +1,0 @@
-{
-  "cloudomate/test/test_clientarea.py::TestClientArea::test_emails": true, 
-  "cloudomate/test/test_gateway.py::TestBitPay::test_address": true, 
-  "cloudomate/test/test_gateway.py::TestBitPay::test_address_valid": true, 
-  "cloudomate/test/test_gateway.py::TestBitPay::test_amount": true
-}
