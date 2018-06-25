@@ -4,6 +4,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import sys
+import subprocess
+
 from abc import abstractmethod
 
 from bs4 import BeautifulSoup
@@ -73,6 +75,33 @@ class SolusvmHoster(VpsHoster):
         if not self._clientarea:
             self._clientarea = self._create_clientarea()
         return self._clientarea
+
+    def change_root_password(self, newpassword):
+        """
+        Changes the rootpassword of the server
+        This can be overridden in subclasses if there is control panel access (LineVast)
+        Changing the root password here will not persist after a (manual) RESET in the control panel.
+        :return: True if password changing succeeded, else False
+        """
+        config = self.get_configuration()
+        commandline = list(['sshpass', '-p', config.root_password, 'ssh', '-o', 'StrictHostKeyChecking=no', 'root@' + config.ip])
+        commandline.append('echo "root:' + newpassword + '" | chpasswd')
+
+        try:
+            subprocess.call(commandline)
+            return True
+        except OSError as e:
+            print(e)
+            print('Install sshpass to use this command')
+            return False
+
+    def enable_tun_tap(self):
+        """
+        For servers that are able to have their TUN/TAP settings enabled
+        This ties along with TUN_TAP_SETTINGS, which must be set to True if provider supports TUN/TAP
+        :return: Defaults to False, unless implemented on the server
+        """
+        return False
 
     '''
     Static methods that must be overwritten by subclasses

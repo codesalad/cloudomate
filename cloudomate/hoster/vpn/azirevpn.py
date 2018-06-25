@@ -9,7 +9,7 @@ import sys
 from builtins import round
 
 import requests
-from forex_python.converter import CurrencyRates
+from currency_converter import CurrencyConverter
 from future import standard_library
 
 from cloudomate.gateway.bitpay import BitPay
@@ -64,7 +64,8 @@ class AzireVpn(VpnHoster):
 
         # Calculate the price in USD
         eur = float(words[2])
-        price = round(CurrencyRates().convert("EUR", "USD", eur), 2)
+        c = CurrencyConverter()
+        price = round(c.convert(eur, "EUR", "USD"), 2)
 
         name, _ = cls.get_metadata()
         option = VpnOption(name, "OpenVPN", price, sys.maxsize, sys.maxsize)

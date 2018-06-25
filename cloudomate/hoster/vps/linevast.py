@@ -13,6 +13,7 @@ from builtins import super
 from future import standard_library
 from mechanicalsoup.utils import LinkNotFoundError
 from decimal import Decimal
+from currency_converter import CurrencyConverter
 import ast
 
 from cloudomate.gateway.bitpay import BitPay
@@ -175,6 +176,7 @@ class LineVast(SolusvmHoster):
         lst = [None] * len(hrefs)
 
         for x in range(0, len(hrefs)):
+            hrefs[x] = re.sub(r'[^\x00-\x7F]+','',str(hrefs)).decode('utf-8','ignore').strip()
             urlstring = str(hrefs[x]).split('href="')[1].split('"')[0]
             urlstring = urlstring.replace('/cart.php', '').replace('amp;', '')
             url = browser.get_url()
@@ -345,7 +347,7 @@ class ControlPanel(object):
             ahref = soup.findAll('a', href=pattern)[0]['href']
             self._browser.open(self._url + '/' + ahref)
             msoup = self._browser.get_current_page()
-            mpattern = re.compile(r'vi:"(.+?)"')
+            mpattern = re.compile(r'vi:\s*"(.+?)"')
             self._vi = mpattern.search(str(msoup)).group(1)
             print(self._vi)
         return self._vi
