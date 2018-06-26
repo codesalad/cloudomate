@@ -98,7 +98,7 @@ class AzireVpn(VpnHoster):
         page = self._order()
 
         # Make the payment
-        self.pay(wallet, page.url)
+        return self.pay(wallet, page.url)
 
     '''
     Hoster-specific methods that are needed to perform the actions
