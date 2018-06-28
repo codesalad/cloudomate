@@ -28,10 +28,10 @@ providers = [
     (LineVast,),
     (TwoSync,),
     (BlueAngelHost,),
-    # (CCIHosting,), CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated
-    # (CrownCloud,), Manually checking orders results in being banned after running tests
+    (CCIHosting,), # TODO CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated.
+    (CrownCloud,),
     (Pulseservers,),
-    # (UndergroundPrivate,),# find a way to combine the url and the invoice to be able to go to the payment page
+    (UndergroundPrivate,),# TODO find a way to combine the url and the invoice to be able to go to the payment pageg
 ]
 
 
