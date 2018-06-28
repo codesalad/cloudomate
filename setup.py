@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 if sys.version_info.major == 2:
@@ -28,7 +28,7 @@ setup(
     description='Automate buying VPS instances with Bitcoin',
     long_description=long_description,
 
-    url='https://github.com/vwigmore/cloudomate',
+    url='https://github.com/tribler/cloudomate',
 
     author='PlebNet',
     author_email='authentic8989@gmail.com',
