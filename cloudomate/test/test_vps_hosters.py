@@ -3,8 +3,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import cloudomate.hoster.vps.linevast
-
 import sys
 import unittest
 
