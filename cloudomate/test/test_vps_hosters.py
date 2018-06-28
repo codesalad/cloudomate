@@ -3,8 +3,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import cloudomate.hoster.vps.linevast
-
 import sys
 import unittest
 
@@ -29,11 +27,11 @@ standard_library.install_aliases()
 providers = [
     (LineVast,),
     (TwoSync,),
-    #(BlueAngelHost,),
-    #(CCIHosting,), # TODO CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated.
-    #(CrownCloud,),
-    #(Pulseservers,),
-    #(UndergroundPrivate,),# TODO find a way to combine the url and the invoice to be able to go to the payment page
+    (BlueAngelHost,),
+    # (CCIHosting,), CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated
+    # (CrownCloud,), Manually checking orders results in being banned after running tests
+    (Pulseservers,),
+    # (UndergroundPrivate,),# find a way to combine the url and the invoice to be able to go to the payment page
 ]
 
 

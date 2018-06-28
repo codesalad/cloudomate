@@ -1,4 +1,3 @@
-import cloudomate.hoster.vps.linevast
 import unittest
 import time
 import os
