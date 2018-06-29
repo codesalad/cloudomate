@@ -22,6 +22,7 @@ from cloudomate.hoster.vps.vps_hoster import VpsOption
 
 standard_library.install_aliases()
 from collections import namedtuple
+from cloudomate.globals import __BASE_URL__
 
 VpsConfiguration = namedtuple('VpsConfiguration', ['ip', 'root_password'])
 VpsStatusResource = namedtuple('VpsStatusResource', ['used', 'total'])
@@ -38,7 +39,7 @@ class ProxHost(SolusvmHoster):
     # true if you can enable tuntap in the control panel
     TUN_TAP_SETTINGS = True
 
-    BASE_URL = 'https://codesalad.nl:5000/cloudomate'
+    BASE_URL = __BASE_URL__
 
     def __init__(self, settings):
         super(ProxHost, self).__init__(settings)

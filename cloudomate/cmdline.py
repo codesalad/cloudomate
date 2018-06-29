@@ -42,13 +42,19 @@ def _map_providers_to_dict(provider_list):
 
 types = ["vps", "vpn"]
 
+
+"""
+All implemented providers, those commented out are not working for now. CCIHosting's and 
+Pulseserver's gateway changed to CoinPayments and this is not implemented. CrownCloud 
+manually checks orders and do not accept multiple variations of the same email. 
+"""
 providers = CaseInsensitiveDict({
     "vps": _map_providers_to_dict([
         BlueAngelHost,
-        #CCIHosting,
-        #CrownCloud,
+        # CCIHosting,
+        # CrownCloud,
         LineVast,
-        #Pulseservers,
+        # Pulseservers,
         UndergroundPrivate,
         TwoSync,
         ProxHost
