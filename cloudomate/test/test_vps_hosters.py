@@ -27,11 +27,11 @@ standard_library.install_aliases()
 providers = [
     (LineVast,),
     (TwoSync,),
-    #(BlueAngelHost,),
-    #(CCIHosting,), # TODO CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated.
-    #(CrownCloud,),
-    #(Pulseservers,),
-    #(UndergroundPrivate,),# TODO find a way to combine the url and the invoice to be able to go to the payment page
+    (BlueAngelHost,),
+    (CCIHosting,), # TODO CCIHosting doesn't use coinbase anymore instead it uses coinpayments the code needs to be updated.
+    (CrownCloud,),
+    (Pulseservers,),
+    (UndergroundPrivate,),# TODO find a way to combine the url and the invoice to be able to go to the payment page
 ]
 
 
