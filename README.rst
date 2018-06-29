@@ -39,11 +39,10 @@ VPS
 Currently the following VPS providers are implemented: ::
 
    blueangelhost         https://www.blueangelhost.com/
-   ccihosting            http://www.ccihosting.com/
-   crowncloud            http://crowncloud.net/
    linevast              https://linevast.de/
-   pulseservers          https://pulseservers.com/
+   twosync               https://ua.2sync.org/
    undergroundprivate    https://undergroundprivate.com/
+   proxhost              Proxmox provider emulation
 
 This same list can be accessed through the list command: ::
 
