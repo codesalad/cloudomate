@@ -3,8 +3,19 @@
 Copied from:
 http://rosettacode.org/wiki/Bitcoin/address_validation#Python
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
+from builtins import bytes
+from builtins import int
+from builtins import range
 from hashlib import sha256
+
+from future import standard_library
+
+standard_library.install_aliases()
 
 digits58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
@@ -29,9 +40,9 @@ def _long_to_bytes(n, length, byteorder):
     http://bugs.python.org/issue16580#msg177208
     """
     if byteorder == 'little':
-        indexes = range(length)
+        indexes = list(range(length))
     else:
-        indexes = reversed(range(length))
+        indexes = reversed(list(range(length)))
     return bytearray((n >> i * 8) & 0xff for i in indexes)
 
 
@@ -45,8 +56,8 @@ def decode_base58(bitcoin_address, length):
     for char in bitcoin_address:
         try:
             n = n * 58 + digits58.index(char)
-        except:
-            msg = u"Character not part of Bitcoin's base58: '%s'"
+        except ValueError:
+            msg = "Character not part of Bitcoin's base58: '%s'"
             raise ValueError(msg % (char,))
     try:
         return n.to_bytes(length, 'big')
@@ -98,7 +109,7 @@ def validate(bitcoin_address, magicbyte=0):
         return False
     # Check magic byte (for other altcoins, fix by Frederico Reiven)
     for mb in magicbyte:
-        if bcbytes.startswith(chr(int(mb))):
+        if bcbytes.startswith(bytes(int(mb))):
             break
     else:
         return False
