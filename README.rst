@@ -71,40 +71,26 @@ depicts the current state of the providers that have been implemented in
 Cloudomate.
 
 
-    Latex
-    Balsamiq
-    BBCode
-    Comma separated values
-    HTML
-    JSON
-    Markdown
-    Mathematica
-    Plain text
-    reStructuredText
-    SQL
-    Wiki markup
-    No output
-
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
 | Provider           | Type | Compatible | Control panel | ClientArea | Email parsing | Rootpassword | Settings | Notes                        |
 +====================+======+============+===============+============+===============+==============+==========+==============================+
-| BlueAngelHost      | vps  | yes        | -             | extended   | yes           | from email   |          | >12h purchase processing     |
+| BlueAngelHost      | vps  | yes        |               | extended   | yes           | from email   |          | >12h purchase processing     |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| TwoSync            | vps  | yes        | -             | extended   | yes           | from email   | TUN/TAP  | TUN/TAP on by default        |
+| TwoSync            | vps  | yes        |               | extended   | yes           | from email   | TUN/TAP  | TUN/TAP on by default        |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| UndergroundPrivate | vps  | yes        | -             | default    | -             | registration |          |                              |
+| UndergroundPrivate | vps  | yes        |               | default    |               | registration |          |                              |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
 | LineVast           | vps  | yes        | yes           | extended   | yes           | registration | TUN/TAP  | TUN/TAP enabling implemented |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| AzireVPN           | vpn  | yes        | -             | none       | -             | registration |          |                              |
+| AzireVPN           | vpn  | yes        |               | none       |               | registration |          |                              |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| CCIHosting         | vps  | no         | -             | default    | -             | -            |          | Gateway broken               |
+| CCIHosting         | vps  | no         |               | default    |               |              |          | Gateway broken               |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| CrownCloud         | vps  | no         | -             | default    | -             | -            |          | Manual order reviews         |
+| CrownCloud         | vps  | no         |               | default    |               |              |          | Manual order reviews         |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| PulseServers       | vps  | no         | -             | default    | -             | -            |          | Gateway broken               |
+| PulseServers       | vps  | no         |               | default    |               |              |          | Gateway broken               |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
-| ProxHost (TBTC)    | vps  | yes        | -             | none       | -             | registration | TUN/TAP  | Emulated (ProxMox)           |
+| ProxHost (TBTC)    | vps  | yes        |               | none       |               | registration | TUN/TAP  | Emulated (ProxMox)           |
 +--------------------+------+------------+---------------+------------+---------------+--------------+----------+------------------------------+
 
 
@@ -258,15 +244,15 @@ and the instance is paid through an Electrum wallet. ::
    Purchase this option? (y/N)
 
 Additionally, a `randomuser` could be generated for a purchase:
-```
+
     $ cloudomate vps purchase linevast 0 --randomuser
-```
+
 The configuration file is stored in `~/.config/cloudomate.cfg`.
 
 For **ProxHost**, a server could be bought using testnet Bitcoins:
-```
+
     $ cloudomate vps purchase proxhost 0 --testnet
-```
+
 
 Manage
 ------
